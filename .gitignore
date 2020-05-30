@@ -83,3 +83,5 @@ target/
 .ipynb_checkpoints
 */.ipynb_checkpoints/*
 *.tif
+*.h5
+*.h5
