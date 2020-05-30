@@ -1,14 +1,24 @@
 /** IMPORTS */
-import React from 'react';
+import React, { useState } from 'react';
 
-// Import Components
-import Box from './Box/Box';
+import Search from '../CitySearch/Search'
 
-// Import Styling
+import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons'
 
-/** CODE */
+export default function SideDrawer() {
 
-// Defining our Functional Component
-const sidedrawer = () => <Box />;
+    const [expanded, setExpanded] = useState(true);
 
-export default sidedrawer;
+    return (
+        <div style={{ height: "100%", width: "100%", backgroundColor: "white", boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)" }}>
+            <div style={{ display: "flex", top: "5%", width: "5%", height: "5%", position: "relative" }}>
+                <MenuFoldOutlined style={{ fontSize: "3em" }} />
+                <h1>Proton: Nighttime Light Imagery</h1>
+            </div>
+            <div style={{ position: 'relative' }}>
+                <Search />
+            </div>
+
+        </div>
+    )
+}

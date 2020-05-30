@@ -5,12 +5,8 @@ import { ScatterplotLayer } from '@deck.gl/layers';
 import { DataFilterExtension } from '@deck.gl/extensions';
 import { MapView } from '@deck.gl/core';
 import RangeInput from './range-input';
-import Sidedrawer from './components/Sidedrawer/Sidedrawer';
 
-/** Styles */
-import './components/Sidedrawer/Sidedrawer.css';
-
-import Box from './components/Sidedrawer/Box/Box';
+import SideDrawer from './components/Sidedrawer/Sidedrawer'
 
 // Set your mapbox token here
 const MAPBOX_TOKEN =
@@ -89,32 +85,32 @@ export default class App extends Component {
 
 		return [
 			data &&
-				new ScatterplotLayer({
-					id: 'earthquakes',
-					data,
-					opacity: 0.8,
-					radiusScale: 100,
-					radiusMinPixels: 1,
-					wrapLongitude: true,
+			new ScatterplotLayer({
+				id: 'earthquakes',
+				data,
+				opacity: 0.8,
+				radiusScale: 100,
+				radiusMinPixels: 1,
+				wrapLongitude: true,
 
-					getPosition: (d) => [d.longitude, d.latitude, -d.depth * 1000],
-					getRadius: (d) => Math.pow(2, d.magnitude),
-					getFillColor: (d) => {
-						const r = Math.sqrt(Math.max(d.depth, 0));
-						return [255 - r * 15, r * 255, r * 0];
-					},
+				getPosition: (d) => [d.longitude, d.latitude, -d.depth * 1000],
+				getRadius: (d) => Math.pow(2, d.magnitude),
+				getFillColor: (d) => {
+					const r = Math.sqrt(Math.max(d.depth, 0));
+					return [255 - r * 15, r * 255, r * 0];
+				},
 
-					getFilterValue: (d) => d.timestamp,
-					filterRange: [filterValue[0], filterValue[1]],
-					filterSoftRange: [
-						filterValue[0] * 0.9 + filterValue[1] * 0.1,
-						filterValue[0] * 0.1 + filterValue[1] * 0.9,
-					],
-					extensions: [dataFilter],
+				getFilterValue: (d) => d.timestamp,
+				filterRange: [filterValue[0], filterValue[1]],
+				filterSoftRange: [
+					filterValue[0] * 0.9 + filterValue[1] * 0.1,
+					filterValue[0] * 0.1 + filterValue[1] * 0.9,
+				],
+				extensions: [dataFilter],
 
-					pickable: true,
-					onHover: this._onHover,
-				}),
+				pickable: true,
+				onHover: this._onHover,
+			}),
 		];
 	}
 
@@ -151,15 +147,15 @@ export default class App extends Component {
 
 		return (
 			<Fragment>
-				<div>
-					<Sidedrawer className='Sidedrawer' style={{ zIndex: '1000' }} />
+				<div style={{ zIndex: '1000', position: "absolute", height: "75%", width: "23%", marginTop: "6%", left: "3%" }}>
+					<SideDrawer />
 				</div>
 				<DeckGL
-					style={{ zIndex: '0' }}
 					views={MAP_VIEW}
 					layers={this._renderLayers()}
 					initialViewState={INITIAL_VIEW_STATE}
 					controller={true}
+					style={{ zIndex: '1' }}
 				>
 					<StaticMap
 						reuseMaps
