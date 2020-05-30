@@ -84,4 +84,5 @@ target/
 */.ipynb_checkpoints/*
 *.tif
 *.h5
-*.h5
+./Data/
+./tiffResults/
