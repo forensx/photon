@@ -1,0 +1,55 @@
+version: "3.5"
+
+services:
+  postgres-server:
+    image: postgres:10.5
+    container_name: postgres_db
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=photon
+      - POSTGRES_USER=forensx
+      - POSTGRES_PASSWORD=forensx
+    volumes:
+      - "./db/init:/docker-entrypoint-initdb.d/"
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=forensx
+      - PGADMIN_DEFAULT_PASSWORD=forensx
+    ports:
+      - "8080:80"
+    depends_on:
+      - "postgres-server"
+
+  flask-api:
+    container_name: boiler_api
+    restart: always
+    build:
+      context: ./api/
+      dockerfile: Dockerfile
+    ports:
+      - "5000:80"
+    volumes:
+      - ./api:/usr/src/app
+    depends_on:
+      - "pgadmin"
+
+  client:
+    container_name: react_boiler
+    restart: always
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    volumes:
+      - "./client:/usr/src/app"
+      - "/usr/src/app/node_modules"
+    stdin_open: true
+    ports:
+      - "3000:3000"
+    depends_on:
+      - "flask-api"
+    environment:
+      - NODE_ENV=development
