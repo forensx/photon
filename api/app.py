@@ -4,12 +4,12 @@ from flask_restplus import Resource, Api
 app = Flask(__name__)
 api = Api(app)
 
+#import class resources
+from Home import Home
 
-@api.route('/home')
-class Home(Resource):
-    def get(self):
-        # return serialized JSON
-        return jsonify({'Hello world': "Hello world"})
+#add api resource
+api.add_resource(Home, '/home')
+
 
 
 if __name__ == "__main__":
