@@ -1,0 +1,11 @@
+/* .Box {
+    font-size: 500px;
+    color: pink;
+} */
+
+.Box {
+    width: 25vw;
+    height: 55vh;
+    background-color: white;
+    box-shadow: 25px;
+}

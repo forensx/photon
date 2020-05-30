@@ -7,6 +7,11 @@ import { MapView } from '@deck.gl/core';
 import RangeInput from './range-input';
 import Sidedrawer from './components/Sidedrawer/Sidedrawer';
 
+/** Styles */
+import './components/Sidedrawer/Sidedrawer.css';
+
+import Box from './components/Sidedrawer/Box/Box';
+
 // Set your mapbox token here
 const MAPBOX_TOKEN =
 	'pk.eyJ1IjoicGFudDIwMDIiLCJhIjoiY2prenlwb2ZtMHlnMjNxbW1ld3VxYWZ4cCJ9.rOb8DhCzsysBIw69MxyWKg'; // eslint-disable-line
@@ -146,8 +151,11 @@ export default class App extends Component {
 
 		return (
 			<Fragment>
-				{/* <Sidedrawer /> */}
+				<div>
+					<Sidedrawer className='Sidedrawer' style={{ zIndex: '1000' }} />
+				</div>
 				<DeckGL
+					style={{ zIndex: '0' }}
 					views={MAP_VIEW}
 					layers={this._renderLayers()}
 					initialViewState={INITIAL_VIEW_STATE}

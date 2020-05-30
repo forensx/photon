@@ -1,18 +1,15 @@
 /** IMPORTS */
 import React from 'react';
 
-// Import Components
-import styled from 'styled-components';
-
 // Import Styling
-
+import './Box.css';
 /** CODE */
 
 // Defining our Functional Component
-const box = () => (
-	<div>
-		<h1>Hi</h1>
-	</div>
+const Box = () => (
+	<React.Fragment>
+		<div className='Box'></div>
+	</React.Fragment>
 );
 
-export default box;
+export default Box;
