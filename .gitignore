@@ -86,3 +86,4 @@ target/
 *.h5
 ./Data/
 ./tiffResults/
+*.7z

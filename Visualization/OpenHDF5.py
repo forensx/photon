@@ -5,7 +5,7 @@ os.chdir("/mnt/d/SpaceApps/proton/Visualization/Data")
 rasterFiles = os.listdir(os.getcwd())
 #print(rasterFiles)
 
-for i in range (0,len(rasterFiles)-1):
+for i in range (0,9):
 #Get File Name Prefix
     rasterFilePre = rasterFiles[i][:-4]
     #print(rasterFilePre)
@@ -20,7 +20,7 @@ for i in range (0,len(rasterFiles)-1):
     # Open raster layer
     #hdflayer.GetSubDatasets()[0][0] - for first layer
     #hdflayer.GetSubDatasets()[1][0] - for second layer ...etc
-    subhdflayer = hdflayer.GetSubDatasets()[0][0]
+    subhdflayer = hdflayer.GetSubDatasets()[4][0]
     rlayer = gdal.Open(subhdflayer, gdal.GA_ReadOnly)
     #outputName = rlayer.GetMetadata_Dict()['long_name']
 
@@ -41,8 +41,8 @@ for i in range (0,len(rasterFiles)-1):
     EastBoundCoord = rlayer.GetMetadata_Dict()["HDFEOS_GRIDS_VNP_Grid_DNB_EastBoundingCoord"]
     NorthBoundCoord = rlayer.GetMetadata_Dict()["HDFEOS_GRIDS_VNP_Grid_DNB_NorthBoundingCoord"]
     SouthBoundCoord = rlayer.GetMetadata_Dict()["HDFEOS_GRIDS_VNP_Grid_DNB_SouthBoundingCoord"]
-    print("ULC: " + NorthBoundCoord + ", " + WestBoundCoord)
-    print("LRC: " + SouthBoundCoord + ", " + EastBoundCoord)
+    #print("ULC: " + NorthBoundCoord + ", " + WestBoundCoord)
+    #print("LRC: " + SouthBoundCoord + ", " + EastBoundCoord)
     EPSG = "-a_srs EPSG:4326" #WGS84
 
     translateOptionText = EPSG+" -a_ullr " + WestBoundCoord + " " + NorthBoundCoord + " " + EastBoundCoord + " " + SouthBoundCoord
