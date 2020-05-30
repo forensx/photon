@@ -24,7 +24,9 @@ const CenterContainer = styled('div', ({$theme}) => ({
 
 const ThumbValue = styled('div', ({$theme}) => ({
   position: 'absolute',
-  top: '-2em'
+  top: '-2em',
+  color: 'white',
+  fontSize: "1.1em"
 }));
 
 const TickBar = styled('div', ({$theme}) => ({
