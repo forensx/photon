@@ -13,6 +13,5 @@ engine = create_engine('postgresql+psycopg2://forensx:forensx@172.18.0.4/photon'
 
 
 
-df = pd.read_json("csvjson.json")
+df = pd.read_csv("csvjson.json")
 df.to_sql('test', con=engine, if_exists = "append", index = False)
-
