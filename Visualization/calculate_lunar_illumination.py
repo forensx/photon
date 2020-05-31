@@ -9,7 +9,7 @@ import pylunar
 
 
 
-path = 'DATA/VIIRS_south_america_v2/'
+path = '/mnt/d/SpaceApps/proton/Visualization/Data/'
 files = []
 for filename in os.listdir(path):
     if filename.endswith(".h5") and 'h10v10' in filename:

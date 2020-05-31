@@ -87,3 +87,8 @@ target/
 ./Data/
 ./tiffResults/
 *.7z
+*.csv
+*.nc4
+*.pdf
+*.json
+*.txt

@@ -13,7 +13,7 @@ fmttypes = {'Byte':'B', 'UInt16':'H', 'Int16':'h', 'UInt32':'I',
             'Int32':'i', 'Float32':'f', 'Float64':'d'}
 
 # read files
-path = 'DATA/VIIRS_himalayas/'
+path = '/mnt/d/SpaceApps/proton/Visualization/Data/'
 files = []
 for filename in os.listdir(path):
     if filename.endswith(".h5"):
@@ -78,7 +78,7 @@ for r in np.arange(0,2400, chunk):
         
 # write to tif file
 driver = gdal.GetDriverByName("GTiff")
-out = driver.Create('compiled_maxlim.tif', 2400, 2400, 1, gdal.GDT_Float32)
+out = driver.Create('/mnt/d/SpaceApps/proton/Visualization/tiffResults/compiled_maxlim.tif', 2400, 2400, 1, gdal.GDT_Float32)
 out.SetGeoTransform((west,10/2400,0,north,0,-10/2400))
 rad.SetProjection("none")
 out.GetRasterBand(1).WriteArray(output)

@@ -4,14 +4,14 @@ from osgeo import osr
 import os
 import pyproj
 
-path = 'DATA/VIIRS/'
+path = '/mnt/d/SpaceApps/proton/Visualization/Data/'
 files = []
 for filename in os.listdir(path):
     if filename.endswith(".h5"):
         files.append(filename)
 
 for f in files:
-    print(f)
+    #print(f)
     hdf_file = gdal.Open(path+f)
     subDatasets = hdf_file.GetSubDatasets()
     
@@ -28,7 +28,7 @@ for f in files:
     vt = int(meta['VerticalTileNumber'])
     ht = int(meta['HorizontalTileNumber'])
     
-    out_name = 'DATA/VIIRS_south_america_tif/H%d_V%d.tif' % (ht,vt)
+    out_name = '/mnt/d/SpaceApps/proton/Visualization/tiffResults/H%d_V%d.tif' % (ht,vt)
     
     # write to geo-tiff image
     driver = gdal.GetDriverByName("GTiff")

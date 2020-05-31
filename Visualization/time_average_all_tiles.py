@@ -13,9 +13,11 @@ fmttypes = {'Byte':'B', 'UInt16':'H', 'Int16':'h', 'UInt32':'I',
             'Int32':'i', 'Float32':'f', 'Float64':'d'}
 
 # read files
-path = 'DATA/VIIRS_south_america_v2/'
+path = '/mnt/d/SpaceApps/proton/Visualization/Data/'
 
-tiles = ["h10v10","h10v11","h10v12","h11v10","h11v11","h11v12","h12v10","h12v11","h12v12","h13v10","h13v11","h13v12"]
+tiles = ["h4v3","h4v4","h4v5","h4v6","h5v3","h5v4","h5v5","h5v6","h6v3","h6v4","h6v5","h6v6",
+"h7v3","h7v4","h7v5","h7v6","h8v3","h8v4","h8v5","h8v6","h9v3","h9v4","h9v5","h9v6",
+"h10v3","h10v4","h10v5","h10v6","h11v3","h11v4","h11v5","h11v6"]
 #tiles = ["h10v12"]
 for t in tiles:
     files = []
@@ -84,7 +86,7 @@ for t in tiles:
             
     # write to tif 
     for i in np.arange(3):
-        outname = 'DATA/VIIRS_south_america_v2_tif/' + t + '_averaged_5mo.tif'
+        outname = '/mnt/d/SpaceApps/proton/Visualization/tiffResults/' + t + '_averaged_1wk.tif'
         driver = gdal.GetDriverByName("GTiff")
         out = driver.Create(outname, 2400, 2400, 1, gdal.GDT_Float32)
         out.SetGeoTransform((west,10/2400,0,north,0,-10/2400))
