@@ -26,8 +26,8 @@ engine = create_engine('postgresql+psycopg2://forensx:forensx@localhost/photon')
 #conn = engine.raw_connection()
 
 #conn = psycopg2.connect(host="localhost", port = 5432, database="photon", user="forensx", password="forensx")
-df = pd.read_csv("NO2_Combined.csv",index_col = "id").drop("index", axis=1).reset_index()
-df[:0].to_sql("nodata", engine, if_exists="append", index=False, schema="public")
+df = pd.read_csv("NO2_Combined.csv",index_col = "id").reset_index()
+df[:0].to_sql("no" + str(2)+"_data", engine, if_exists="append", index=False, schema="public")
 
-sendToPG(df,"nodata", engine)
+sendToPG(df,"no" + str(2)+"_data", engine)
 #df.to_sql('NO2_Data', con=engine, schema='public', if_exists = "append", index = False)
