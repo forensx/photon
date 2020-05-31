@@ -1,17 +1,21 @@
 import React from 'react';
-import {render} from 'react-dom';
-import {Client as Styletron} from 'styletron-engine-atomic';
-import {Provider as StyletronProvider} from 'styletron-react';
-import {LightTheme, BaseProvider} from 'baseui';
+import { render } from 'react-dom';
+import { Client as Styletron } from 'styletron-engine-atomic';
+import { Provider as StyletronProvider } from 'styletron-react';
+import { LightTheme, BaseProvider } from 'baseui';
 import App from './App';
+
+import data from './no2.json'
 
 const engine = new Styletron();
 
 // Source data GeoJSON
-const DATA_URL =
-  'https://raw.githubusercontent.com/uber-web/kepler.gl-data/master/earthquakes/data.csv'; // eslint-disable-line
+// const DATA_URL =
+//   'https://raw.githubusercontent.com/uber-web/kepler.gl-data/master/earthquakes/data.csv'; // eslint-disable-line
+// NO2 Data
+console.log("NO2 Data: ", data)
 
-function Root({data}) {
+function Root({ data }) {
   return (
     <StyletronProvider value={engine}>
       <BaseProvider theme={LightTheme}>
