@@ -80,3 +80,8 @@ docs/_build/
 # PyBuilder
 target/
 *.pyc
+*.nc4
+*.csv
+*.pdf
+*.json
+*.h5
