@@ -7,11 +7,27 @@ Created on Sat May 30 18:51:38 2020
 
 import pandas as pd
 from sqlalchemy import create_engine
+import psycopg2
+from io import StringIO
+def sendToPG(df, tableName, con):
+    output = StringIO()
+    df.to_csv(output, sep='\t', header=False, index=False)
+    output.getvalue()
+    output.seek(0)
+    raw = con.raw_connection()
+    curs = raw.cursor()
+    # null values become ''
+    columns = df.columns
+    curs.copy_from(output, tableName, null="", columns=(columns))
+    curs.connection.commit()
+    curs.close()
 
+engine = create_engine('postgresql+psycopg2://forensx:forensx@localhost/photon')
+#conn = engine.raw_connection()
 
-engine = create_engine('postgresql+psycopg2://forensx:forensx@172.18.0.4/photon')
+#conn = psycopg2.connect(host="localhost", port = 5432, database="photon", user="forensx", password="forensx")
+df = pd.read_csv("NO2_Combined.csv",index_col = "id").drop("index", axis=1).reset_index()
+df[:0].to_sql("nodata", engine, if_exists="append", index=False, schema="public")
 
-
-
-df = pd.read_csv("csvjson.json")
-df.to_sql('test', con=engine, if_exists = "append", index = False)
+sendToPG(df,"nodata", engine)
+#df.to_sql('NO2_Data', con=engine, schema='public', if_exists = "append", index = False)
