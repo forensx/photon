@@ -6,7 +6,7 @@ import { DataFilterExtension } from '@deck.gl/extensions';
 import { MapView } from '@deck.gl/core';
 import RangeInput from './range-input';
 
-import SideDrawer from './components/Sidedrawer/Sidedrawer'
+import SideDrawer from './components/Sidedrawer/Sidedrawer';
 
 // Set your mapbox token here
 const MAPBOX_TOKEN =
@@ -48,9 +48,18 @@ export default class App extends Component {
 			timeRange,
 			filterValue: timeRange,
 			hoveredObject: null,
+			searchRegion: '',
+			opacity: 0.5,
+			radiusScale: 100,
+			radiusMinPixels: 1,
 		};
 		this._onHover = this._onHover.bind(this);
 		this._renderTooltip = this._renderTooltip.bind(this);
+		this._renderLayers = this._renderLayers.bind(this);
+
+		this.setOpacity = this.setOpacity.bind(this);
+		this.setRadiusScale = this.setRadiusScale.bind(this);
+		this.setRadiusMinPixels = this.setRadiusMinPixels.bind(this);
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -58,6 +67,25 @@ export default class App extends Component {
 			const timeRange = this._getTimeRange(nextProps.data);
 			this.setState({ timeRange, filterValue: timeRange });
 		}
+	}
+
+	/** Setting up Prop Drilling */
+	setOpacity(opacity) {
+		this.setState({
+			opacity: opacity,
+		});
+	}
+
+	setRadiusScale(radiusScale) {
+		this.setState({
+			radiusScale: radiusScale,
+		});
+	}
+
+	setRadiusMinPixels(radiusMinPixels) {
+		this.setState({
+			radiusMinPixels: radiusMinPixels,
+		});
 	}
 
 	_getTimeRange(data) {
@@ -81,36 +109,36 @@ export default class App extends Component {
 
 	_renderLayers() {
 		const { data } = this.props;
-		const { filterValue } = this.state;
+		const { filterValue, radiusMinPixels, opacity, radiusScale } = this.state;
 
 		return [
 			data &&
-			new ScatterplotLayer({
-				id: 'earthquakes',
-				data,
-				opacity: 0.8,
-				radiusScale: 100,
-				radiusMinPixels: 1,
-				wrapLongitude: true,
+				new ScatterplotLayer({
+					id: 'earthquakes',
+					data,
+					radiusMinPixels,
+					opacity,
+					radiusScale,
+					wrapLongitude: true,
 
-				getPosition: (d) => [d.longitude, d.latitude, -d.depth * 1000],
-				getRadius: (d) => Math.pow(2, d.magnitude),
-				getFillColor: (d) => {
-					const r = Math.sqrt(Math.max(d.depth, 0));
-					return [255 - r * 15, r * 255, r * 0];
-				},
+					getPosition: (d) => [d.longitude, d.latitude, -d.depth * 1000],
+					getRadius: (d) => Math.pow(2, d.magnitude),
+					getFillColor: (d) => {
+						const r = Math.sqrt(Math.max(d.depth, 0));
+						return [255 - r * 15, r * 255, r * 0];
+					},
 
-				getFilterValue: (d) => d.timestamp,
-				filterRange: [filterValue[0], filterValue[1]],
-				filterSoftRange: [
-					filterValue[0] * 0.9 + filterValue[1] * 0.1,
-					filterValue[0] * 0.1 + filterValue[1] * 0.9,
-				],
-				extensions: [dataFilter],
+					getFilterValue: (d) => d.timestamp,
+					filterRange: [filterValue[0], filterValue[1]],
+					filterSoftRange: [
+						filterValue[0] * 0.9 + filterValue[1] * 0.1,
+						filterValue[0] * 0.1 + filterValue[1] * 0.9,
+					],
+					extensions: [dataFilter],
 
-				pickable: true,
-				onHover: this._onHover,
-			}),
+					pickable: true,
+					onHover: this._onHover,
+				}),
 		];
 	}
 
@@ -147,8 +175,24 @@ export default class App extends Component {
 
 		return (
 			<Fragment>
-				<div style={{ zIndex: '1000', position: "absolute", height: "75%", width: "23%", marginTop: "6%", left: "3%" }}>
-					<SideDrawer />
+				<div
+					style={{
+						zIndex: '1000',
+						position: 'absolute',
+						height: '75%',
+						width: '23%',
+						marginTop: '6%',
+						left: '3%',
+					}}
+				>
+					<SideDrawer
+						opacity={this.state.opacity}
+						radiusScale={this.state.radiusScale}
+						radiusMinPixels={this.state.radiusMinPixels}
+						setOpacity={this.setOpacity}
+						setRadiusScale={this.setRadiusScale}
+						setRadiusMinPixels={this.setRadiusMinPixels}
+					/>
 				</div>
 				<DeckGL
 					views={MAP_VIEW}
